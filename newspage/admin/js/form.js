@@ -513,3 +513,29 @@ $('.del-img').on('click', function() {
         return false;
     }
 });
+
+// Thêm bài viết
+$('#formAddPost button').on('click', function() {
+    $title_add_post = $('#title_add_post').val();
+    $slug_add_post = $('#slug_add_post').val();
+ 
+    if ($title_add_post == '' || $slug_add_post == '') {
+        $('#formAddPost .alert').removeClass('hidden');
+        $('#formAddPost .alert').html('Vui lòng điền đầy đủ thông tin.');
+    } else {
+        $.ajax({
+            url : $_DOMAIN + 'posts.php',
+            type : 'POST',
+            data : {
+                title_add_post : $title_add_post,
+                slug_add_post : $slug_add_post,
+                action : 'add_post'
+            }, success : function(data) {
+                $('#formAddPost .alert').html(data);
+            }, error : function() {
+                $('#formAddPost .alert').removeClass('hidden');
+                $('#formAddPost .alert').html('Đã có lỗi xảy ra, hãy thử lại.');
+            }
+        });
+    }
+});
